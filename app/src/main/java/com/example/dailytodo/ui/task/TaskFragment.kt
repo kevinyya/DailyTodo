@@ -29,14 +29,14 @@ class TaskFragment : Fragment() {
         _binding = FragmentTaskBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textTask
-        taskViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+//        val textView: TextView = binding.textTask
+//        taskViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
 
-        binding.addBtn.setOnClickListener{
-            Log.d("Debug", "Add Button Trigger");
-        }
+//        binding.addBtn.setOnClickListener{
+//            Log.d("Debug", "Add Button Trigger");
+//        }
 
         return root
     }
