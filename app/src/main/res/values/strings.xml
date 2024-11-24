@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DailyTodo</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_task">Task</string>
+    <string name="title_timer">Timer</string>
+    <string name="title_calendar">Calendar</string>
 </resources>
