@@ -1,6 +1,7 @@
 package com.example.dailytodo.ui.task
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,11 @@ class TaskFragment : Fragment() {
         taskViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+        binding.addBtn.setOnClickListener{
+            Log.d("Debug", "Add Button Trigger");
+        }
+
         return root
     }
 
