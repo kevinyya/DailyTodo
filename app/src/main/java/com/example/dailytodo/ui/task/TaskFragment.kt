@@ -1,5 +1,6 @@
 package com.example.dailytodo.ui.task
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.dailytodo.AddActivity
 import com.example.dailytodo.databinding.FragmentTaskBinding
 
 class TaskFragment : Fragment() {
@@ -48,6 +50,8 @@ class TaskFragment : Fragment() {
 
         binding.addBtn.setOnClickListener{
             Log.d("Debug", "Add Button Trigger");
+            val intent = Intent(requireContext(), AddActivity::class.java)
+            startActivity(intent)
         }
 
         return root
