@@ -35,7 +35,7 @@ data class TaskData (
     @ColumnInfo(name = "content")
     val content: String,
     @ColumnInfo(name = "priority")
-    val priority: Int,
+    val priority: Priority,
     @ColumnInfo(name = "date")
     val date : Long
 )

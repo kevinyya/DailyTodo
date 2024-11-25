@@ -23,5 +23,8 @@ interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY id ASC")
     fun getAllTasks() : LiveData<List<TaskData>>
 
+    @Query("SELECT * FROM tasks WHERE title = :title")
+    fun findTask(title: String): TaskData
+
     // suspend fun sortByDate()
 }
