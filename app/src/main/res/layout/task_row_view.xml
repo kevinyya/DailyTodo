@@ -32,7 +32,7 @@
                 android:text="Title" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/priority_indicator"
+                android:id="@+id/priorityCard"
                 android:layout_width="20sp"
                 android:layout_height="20sp"
                 app:cardBackgroundColor="@color/red"

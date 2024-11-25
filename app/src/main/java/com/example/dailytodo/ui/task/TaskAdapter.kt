@@ -47,4 +47,9 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
         }
     }
+
+    fun setData(taskList: List<TaskData>) {
+        this.taskList = taskList
+
+    }
 }
