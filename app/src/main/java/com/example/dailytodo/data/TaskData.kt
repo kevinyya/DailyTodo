@@ -7,9 +7,9 @@ import androidx.room.TypeConverter
 import java.util.Date
 
 enum class Priority {
-    LOW,
+    HIGH,
     MEDIUM,
-    HIGH
+    LOW
 }
 
 class DateConverter {

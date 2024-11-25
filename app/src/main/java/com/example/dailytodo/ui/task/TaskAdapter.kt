@@ -36,13 +36,13 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         val priority = taskList[position].priority
         when (priority) {
             Priority.LOW -> holder.priorityCard.setCardBackgroundColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.red)
+                ContextCompat.getColor(holder.itemView.context, R.color.green)
             )
             Priority.MEDIUM -> holder.priorityCard.setCardBackgroundColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.yellow)
             )
             Priority.HIGH -> holder.priorityCard.setCardBackgroundColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.green)
+                ContextCompat.getColor(holder.itemView.context, R.color.red)
             )
 
         }
