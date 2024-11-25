@@ -4,4 +4,9 @@
     <string name="title_task">Task</string>
     <string name="title_timer">Timer</string>
     <string name="title_calendar">Calendar</string>
+    <string-array name="priority_array">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
 </resources>
