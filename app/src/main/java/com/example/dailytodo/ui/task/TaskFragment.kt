@@ -45,6 +45,7 @@ class TaskFragment : Fragment() {
 
         // Observe LiveData
         taskViewModel.getAllTasks.observe(viewLifecycleOwner, Observer { data ->
+            Log.d("Debug", "Data Changed");
             taskAdapter.setData(data)
         })
 

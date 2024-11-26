@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp">
+    android:background="@color/white"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/taskLL"
@@ -11,9 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical"
-        android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        android:padding="16dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,15 +41,28 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/dateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Date"
+            android:textColor="@color/gray"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginStart="8dp"
+            />
+
+        <TextView
             android:id="@+id/contentTV"
             android:layout_width="wrap_content"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Content"
             android:textColor="@color/gray"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="@id/taskLL" />
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginStart="8dp" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

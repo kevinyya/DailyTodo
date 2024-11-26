@@ -11,8 +11,10 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toolbar
 import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.example.dailytodo.data.Priority
@@ -91,6 +93,11 @@ class AddActivity : AppCompatActivity() {
             // Log.d("Debug", "Content: " + newTask.content)
             // Log.d("Debug", "Date: " + newTask.date.toString())
             // Log.d("Debug", "Date: " + Date(newTask.date).toString())
+
+            taskViewModel.insertTask(newTask)
+            // val intent = Intent(this, MainActivity::class.java)
+            // startActivity(intent)
+            finish()
 
         } else {
             // Snackbar popup

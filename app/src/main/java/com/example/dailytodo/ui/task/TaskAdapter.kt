@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytodo.R
 import com.example.dailytodo.data.Priority
 import com.example.dailytodo.data.TaskData
+import java.text.SimpleDateFormat
 
 class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
@@ -19,6 +20,7 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         val titleTV = itemView.findViewById<TextView>(R.id.titleTV)
         val contentTV = itemView.findViewById<TextView>(R.id.contentTV)
         val priorityCard = itemView.findViewById<CardView>(R.id.priorityCard)
+        val dateTV = itemView.findViewById<TextView>(R.id.dateTV)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -31,8 +33,12 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+        // Date Format
+        val formatDate = SimpleDateFormat(holder.itemView.context.getString(R.string.date_format))
+        // Display View
         holder.titleTV.text = taskList[position].title
         holder.contentTV.text = taskList[position].content
+        holder.dateTV.text = formatDate.format(taskList[position].date)
         val priority = taskList[position].priority
         when (priority) {
             Priority.LOW -> holder.priorityCard.setCardBackgroundColor(
@@ -50,6 +56,6 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     fun setData(taskList: List<TaskData>) {
         this.taskList = taskList
-
+        notifyDataSetChanged()
     }
 }
