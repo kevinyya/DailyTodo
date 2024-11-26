@@ -2,15 +2,15 @@ package com.example.dailytodo.ui.task
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dailytodo.AddActivity
 import com.example.dailytodo.databinding.FragmentTaskBinding
@@ -42,6 +42,7 @@ class TaskFragment : Fragment() {
         val taskRV = binding.taskRV
         taskRV.adapter = taskAdapter
         taskRV.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        taskSwipe(taskRV)
 
         // Observe LiveData
         taskViewModel.getAllTasks.observe(viewLifecycleOwner, Observer { data ->
@@ -56,6 +57,19 @@ class TaskFragment : Fragment() {
         }
 
         return root
+    }
+
+    private fun taskSwipe(recyclerView: RecyclerView) {
+        val swipeFinishCallback = object : TaskSwipe() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val deleteTask = taskAdapter.taskList[viewHolder.adapterPosition]
+                // Delete Task from Database
+                taskViewModel.deleteTask(deleteTask)
+                taskAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeFinishCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     override fun onDestroyView() {

@@ -62,7 +62,6 @@ class AddActivity : AppCompatActivity() {
         dateET.setOnClickListener{
             showDatePickerDialog()
         }
-
     }
 
     private fun showDatePickerDialog() {
