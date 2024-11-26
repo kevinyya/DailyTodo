@@ -36,7 +36,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun findTask(title: String) : TaskData {
-        return taskDao.findTask(title)
+        return taskDao.getTask(title)
     }
 
 }

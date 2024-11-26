@@ -13,9 +13,13 @@
         android:theme="@style/Theme.DailyTodo"
         tools:targetApi="31">
         <activity
+            android:name=".UpdateActivity"
+            android:exported="false" 
+            android:theme="@style/Theme.DailyTodo.Add" />
+        <activity
             android:name=".AddActivity"
             android:exported="false"
-            android:theme="@style/Theme.DailyTodo.Add"/>
+            android:theme="@style/Theme.DailyTodo.Add" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -1,13 +1,19 @@
 package com.example.dailytodo.ui.task
 
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytodo.R
+import com.example.dailytodo.UpdateActivity
 import com.example.dailytodo.data.Priority
 import com.example.dailytodo.data.TaskData
 import java.text.SimpleDateFormat
@@ -21,10 +27,11 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         val contentTV = itemView.findViewById<TextView>(R.id.contentTV)
         val priorityCard = itemView.findViewById<CardView>(R.id.priorityCard)
         val dateTV = itemView.findViewById<TextView>(R.id.dateTV)
+        val taskRowLL = itemView.findViewById<LinearLayout>(R.id.taskRowLL)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.task_row_view, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_item, parent, false)
         return TaskViewHolder(layout)
     }
 
@@ -51,6 +58,17 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
                 ContextCompat.getColor(holder.itemView.context, R.color.red)
             )
         }
+
+        // Item Click Listener
+        holder.taskRowLL.setOnClickListener {
+            // Log.d("Debug", "Row Item Clicked")
+            val intent = Intent(holder.itemView.context, UpdateActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("Title", taskList[position].title)
+            intent.putExtras(bundle)
+            holder.itemView.context.startActivity(intent)
+        }
+
     }
 
     fun setData(taskList: List<TaskData>) {

@@ -45,12 +45,12 @@ class TaskFragment : Fragment() {
 
         // Observe LiveData
         taskViewModel.getAllTasks.observe(viewLifecycleOwner, Observer { data ->
-            Log.d("Debug", "Data Changed");
+            // Log.d("Debug", "Data Changed");
             taskAdapter.setData(data)
         })
 
         binding.addBtn.setOnClickListener{
-            Log.d("Debug", "Add Button Trigger");
+            // Log.d("Debug", "Add Button Trigger");
             val intent = Intent(requireContext(), AddActivity::class.java)
             startActivity(intent)
         }

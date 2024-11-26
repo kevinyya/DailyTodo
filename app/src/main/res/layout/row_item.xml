@@ -9,7 +9,7 @@
     android:layout_margin="4dp" >
 
     <LinearLayout
-        android:id="@+id/taskLL"
+        android:id="@+id/taskRowLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
