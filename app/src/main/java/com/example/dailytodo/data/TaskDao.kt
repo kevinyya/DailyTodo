@@ -26,5 +26,9 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE title = :title")
     fun getTask(title: String): TaskData
 
-    // suspend fun sortByDate()
+    @Query("SELECT * FROM tasks ORDER BY CASE WHEN priority LIKE 'H%' THEN 1 WHEN priority LIKE 'M%' THEN 2 WHEN priority LIKE 'L%' THEN 3 END")
+    fun sortByPriority(): LiveData<List<TaskData>>
+    @Query("SELECT * FROM tasks ORDER BY date ASC")
+    fun sortByDate(): LiveData<List<TaskData>>
+
 }

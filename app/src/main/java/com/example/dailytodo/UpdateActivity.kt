@@ -91,10 +91,10 @@ class UpdateActivity : AppCompatActivity() {
         // Get Task by Title
         currentTask = taskViewModel.findTask(title)
 
-        // Log.d("Debug", "Title: " + getTask.title)
-        // Log.d("Debug", "Priority: " + getTask.priority.value.toString())
-        // Log.d("Debug", "Content: " + getTask.content)
-        // Log.d("Debug", "Date: " + Date(getTask.date).toString())
+        // Log.d("Debug", "Title: " + currentTask.title)
+        // Log.d("Debug", "Priority: " + currentTask.priority.value.toString())
+        // Log.d("Debug", "Content: " + currentTask.content)
+        Log.d("Debug", "Date: " + currentTask.date.toString())
 
         // Display UI Elements
         titleET.setText(currentTask.title)
