@@ -5,6 +5,7 @@
     <string name="title_timer">Timer</string>
     <string name="title_calendar">Calendar</string>
     <string name="add_title_hint">Please input title!</string>
+    <string name="date_format">yyyy-MM-dd</string>
 
     <string-array name="priority_array">
         <item>High</item>

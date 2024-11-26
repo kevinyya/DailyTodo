@@ -5,10 +5,12 @@ import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toolbar
+import android.app.DatePickerDialog
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,6 +19,7 @@ import com.example.dailytodo.data.Priority
 import com.example.dailytodo.data.TaskData
 import com.example.dailytodo.ui.task.TaskViewModel
 import com.google.android.material.snackbar.Snackbar
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
@@ -27,7 +30,7 @@ class AddActivity : AppCompatActivity() {
     private lateinit var titleET: EditText
     private lateinit var prioritySP: Spinner
     private lateinit var contentET: EditText
-    private lateinit var dateDP: DatePicker
+    private lateinit var dateET: EditText
 
     private val taskViewModel: TaskViewModel by viewModels()
 
@@ -48,24 +51,46 @@ class AddActivity : AppCompatActivity() {
         titleET = findViewById(R.id.titleET)
         prioritySP = findViewById(R.id.prioritySP)
         contentET = findViewById(R.id.contentET)
-        dateDP = findViewById(R.id.dateDP)
+        dateET = findViewById(R.id.dateET)
 
         // Set Content EditView Scrollable
         contentET.movementMethod = ScrollingMovementMethod.getInstance()
 
+        // Show DatePickerDialog
+        val calendar = Calendar.getInstance()
+        dateET.setOnClickListener{
+            showDatePickerDialog()
+        }
 
     }
 
+    private fun showDatePickerDialog() {
+        // Get Date
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
+        // Create Datepicker Dialog
+        val datePickerDialog =
+            DatePickerDialog(this, { view, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                // Get Date
+                calendar.set(selectedYear, selectedMonth, selectedDay)
+                val formatDate = SimpleDateFormat(getString(R.string.date_format))
+                dateET.setText(formatDate.format(calendar.getTime()))
+            }, year, month, day).show()
+    }
     private fun addTask() {
-        if (titleET.text.toString() != "") {
+        if (titleET.text.toString() != "" && dateET.text.toString() != "") {
+            // Get New Task
             val newTask = createNewTask()
 
-//            Log.d("Debug", "Title: " + newTask.title)
-//            Log.d("Debug", "Priority: " + newTask.priority.toString())
-//            Log.d("Debug", "Content: " + newTask.content)
-//            Log.d("Debug", "Date: " + newTask.date.toString())
-//            Log.d("Debug", "Date: " + Date(newTask.date).toString())
+            // Log.d("Debug", "Title: " + newTask.title)
+            // Log.d("Debug", "Priority: " + newTask.priority.toString())
+            // Log.d("Debug", "Content: " + newTask.content)
+            // Log.d("Debug", "Date: " + newTask.date.toString())
+            // Log.d("Debug", "Date: " + Date(newTask.date).toString())
 
         } else {
             // Snackbar popup
@@ -78,16 +103,14 @@ class AddActivity : AppCompatActivity() {
 
     private fun createNewTask(): TaskData {
         // Convert Date
-        val calendar = Calendar.getInstance()
-        calendar.set(dateDP.year, dateDP.month, dateDP.dayOfMonth)
+        val formatDate = SimpleDateFormat(getString(R.string.date_format))
+        val date = formatDate.parse(dateET.text.toString())
 
         // Create New Task
-        val newTask = TaskData(title = titleET.text.toString(),
-                               priority = Priority.values()[prioritySP.selectedItemId.toInt()],
-                               content = contentET.text.toString(),
-                               date = calendar.getTime().time)
-
-        return newTask
+        return TaskData(title = titleET.text.toString(),
+                        priority = Priority.values()[prioritySP.selectedItemId.toInt()],
+                        content = contentET.text.toString(),
+                        date = date.time)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -99,7 +122,7 @@ class AddActivity : AppCompatActivity() {
         if (item.itemId == android.R.id.home) {
             finish()
         } else if (item.itemId == R.id.taskCheck) {
-            Log.d("Debug", "Check Triggered")
+            // Add Task
             addTask()
         }
 
