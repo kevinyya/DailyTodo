@@ -50,7 +50,6 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
             Priority.HIGH -> holder.priorityCard.setCardBackgroundColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.red)
             )
-
         }
     }
 
