@@ -15,7 +15,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     // Get TaskDao
     private val taskDao = TaskDatabase.getInstance(application).taskDao()
     // Get All Tasks
-    val getAllTasks: LiveData<List<TaskData>> = taskDao.getAllTasks()
+    val getAllTasks: List<TaskData> = taskDao.getAllTasks()
     val sortByPriority: LiveData<List<TaskData>> = taskDao.sortByPriority()
     val sortByDate: LiveData<List<TaskData>> = taskDao.sortByDate()
 
