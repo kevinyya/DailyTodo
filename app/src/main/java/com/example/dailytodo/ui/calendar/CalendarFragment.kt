@@ -14,6 +14,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dailytodo.data.Priority
+import com.example.dailytodo.data.TaskDao
 import com.example.dailytodo.data.TaskDatabase
 import com.example.dailytodo.databinding.FragmentCalendarBinding
 import com.example.dailytodo.ui.task.TaskAdapter
@@ -35,13 +36,14 @@ class CalendarFragment : Fragment() {
     private val calendarViewModel: CalendarViewModel by viewModels()
     // MaterialCalendarView
     private lateinit var materialCalendarView: MaterialCalendarView
+    // TaskDao
+    private lateinit var taskDao: TaskDao
 
     private var _binding: FragmentCalendarBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
 
     // Date Format
     private val formatDate = SimpleDateFormat("yyyy-MM-dd")
@@ -58,15 +60,12 @@ class CalendarFragment : Fragment() {
         val root: View = binding.root
 
         // Database Dao
-        val taskDao = TaskDatabase.getInstance(requireContext()).taskDao()
+        taskDao = TaskDatabase.getInstance(requireContext()).taskDao()
 
         // Highlight Current Date
         materialCalendarView = binding.materialCalendarView
         val currentDate: Calendar = Calendar.getInstance()
         materialCalendarView.setSelectedDate(currentDate.getTime())
-
-        // Show Task with Color in the Calendar
-        showTaskInCalendar()
 
         // Configure RecyclerView
         val calendarRV = binding.calendarRV
@@ -80,8 +79,8 @@ class CalendarFragment : Fragment() {
                 calendarDay: CalendarDay,
                 selected: Boolean
             ) {
-                val dateInLong = calendarDayToDate(calendarDay).time / 10000 * 10000
-                val taskList = taskDao.getTasksByDate(dateInLong)
+                val dateInLong = calendarDayToDate(calendarDay).time
+                val taskList = taskDao.getTasksByDate(dateInLong / 10000 * 10000)
                 calendarAdapter.setData(taskList)
             }
         })
@@ -92,6 +91,13 @@ class CalendarFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        // Display Calendar with Color Dot
+        showTaskInCalendar()
+
+        // Display Today Tasks
+        val dateInLong = calendarDayToDate(materialCalendarView.selectedDate).time
+        val taskList = taskDao.getTasksByDate(dateInLong / 10000 * 10000)
+        calendarAdapter.setData(taskList)
     }
 
     override fun onPause() {
@@ -99,13 +105,14 @@ class CalendarFragment : Fragment() {
     }
 
     fun showTaskInCalendar() {
-        val taskList = calendarViewModel.getAllTasks
+        val taskList = taskDao.getAllTasks()
         val lowPriorityDecorator = CalendarDecorator(Priority.LOW)
         val mediumPriorityDecorator = CalendarDecorator(Priority.MEDIUM)
         val highPriorityDecorator = CalendarDecorator(Priority.HIGH)
         for (task in taskList) {
             // Convert to CalendarDay
             val calendarDay = dateToCalendarDay(task.date)
+            Log.d("Debug", task.title + ": "+ task.date.toString())
             when (task.priority) {
                 Priority.LOW -> lowPriorityDecorator.addDate(calendarDay)
                 Priority.MEDIUM -> mediumPriorityDecorator.addDate(calendarDay)
@@ -114,9 +121,9 @@ class CalendarFragment : Fragment() {
             }
         }
         // Update Decorator
-        binding.materialCalendarView.addDecorator(lowPriorityDecorator)
-        binding.materialCalendarView.addDecorator(mediumPriorityDecorator)
-        binding.materialCalendarView.addDecorator(highPriorityDecorator)
+        materialCalendarView.addDecorator(lowPriorityDecorator)
+        materialCalendarView.addDecorator(mediumPriorityDecorator)
+        materialCalendarView.addDecorator(highPriorityDecorator)
     }
 
     fun dateToCalendarDay(dateInLong: Long) : CalendarDay {
