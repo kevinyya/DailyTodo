@@ -66,6 +66,28 @@
 
     </LinearLayout>
 
+
+    <EditText
+        android:id="@+id/dateET"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="499dp"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        android:ems="10"
+        android:gravity="top|start"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:drawableStart="@drawable/ic_calendar"
+        android:drawablePadding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/priorityLL" />
+
+
     <EditText
         android:id="@+id/contentET"
         android:layout_width="match_parent"
@@ -83,25 +105,6 @@
         android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/priorityLL" />
-
-    <EditText
-        android:id="@+id/dateET"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="499dp"
-        android:scrollbarStyle="outsideInset"
-        android:scrollbars="vertical"
-        android:ems="10"
-        android:gravity="top|start"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:drawableStart="@drawable/ic_calendar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/contentET" />
+        app:layout_constraintTop_toBottomOf="@id/dateET" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

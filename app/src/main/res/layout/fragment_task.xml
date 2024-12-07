@@ -11,11 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:foregroundGravity="center"
         android:src="@android:drawable/ic_input_add"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="80dp"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/taskRV"
