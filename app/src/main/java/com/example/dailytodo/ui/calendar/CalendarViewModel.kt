@@ -13,7 +13,7 @@ import java.util.Calendar
 
 class CalendarViewModel(application: Application) : AndroidViewModel(application) {
     // Get TaskDao
-    private val taskDao = TaskDatabase.getInstance(application).taskDao()
+    // private val taskDao = TaskDatabase.getInstance(application).taskDao()
     // Get All Tasks
-    val getAllTasks: List<TaskData> = taskDao.getAllTasks()
+    // val getAllTasks: List<TaskData> = taskDao.getAllTasks()
 }

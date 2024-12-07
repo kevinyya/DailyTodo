@@ -73,7 +73,7 @@ class AddActivity : AppCompatActivity() {
 
         // Create Datepicker Dialog
         val datePickerDialog =
-            DatePickerDialog(this, { view, selectedYear, selectedMonth, selectedDay ->
+            DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
                 val selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
                 // Get Date
                 calendar.set(selectedYear, selectedMonth, selectedDay)

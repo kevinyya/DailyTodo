@@ -104,7 +104,7 @@ class CalendarFragment : Fragment() {
         super.onPause()
     }
 
-    fun showTaskInCalendar() {
+    private fun showTaskInCalendar() {
         val taskList = taskDao.getAllTasks()
         val lowPriorityDecorator = CalendarDecorator(Priority.LOW)
         val mediumPriorityDecorator = CalendarDecorator(Priority.MEDIUM)
@@ -112,7 +112,7 @@ class CalendarFragment : Fragment() {
         for (task in taskList) {
             // Convert to CalendarDay
             val calendarDay = dateToCalendarDay(task.date)
-            Log.d("Debug", task.title + ": "+ task.date.toString())
+            // Log.d("Debug", task.title + ": "+ task.date.toString())
             when (task.priority) {
                 Priority.LOW -> lowPriorityDecorator.addDate(calendarDay)
                 Priority.MEDIUM -> mediumPriorityDecorator.addDate(calendarDay)
@@ -126,7 +126,7 @@ class CalendarFragment : Fragment() {
         materialCalendarView.addDecorator(highPriorityDecorator)
     }
 
-    fun dateToCalendarDay(dateInLong: Long) : CalendarDay {
+    private fun dateToCalendarDay(dateInLong: Long) : CalendarDay {
         // Convert to CalendarDay
         val dateInString = formatDate.format(dateInLong)
         val date : Date = formatDate.parse(dateInString)
@@ -135,7 +135,7 @@ class CalendarFragment : Fragment() {
         return CalendarDay.from(calendar)
     }
 
-    fun calendarDayToDate(calendarDay: CalendarDay) : Date {
+    private fun calendarDayToDate(calendarDay: CalendarDay) : Date {
         val calendar = Calendar.getInstance()
         calendar.set(calendarDay.year, calendarDay.month, calendarDay.day, 0, 0, 0)
         return calendar.time

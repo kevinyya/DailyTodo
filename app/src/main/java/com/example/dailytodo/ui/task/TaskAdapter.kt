@@ -2,7 +2,6 @@ package com.example.dailytodo.ui.task
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytodo.R
 import com.example.dailytodo.UpdateActivity
@@ -23,15 +21,15 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     var taskList = emptyList<TaskData>()
 
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTV = itemView.findViewById<TextView>(R.id.titleTV)
-        val contentTV = itemView.findViewById<TextView>(R.id.contentTV)
-        val priorityCard = itemView.findViewById<CardView>(R.id.priorityCard)
-        val dateTV = itemView.findViewById<TextView>(R.id.dateTV)
-        val taskRowLL = itemView.findViewById<LinearLayout>(R.id.taskRowLL)
+        val titleTV: TextView = itemView.findViewById<TextView>(R.id.titleTV)
+        val contentTV: TextView = itemView.findViewById<TextView>(R.id.contentTV)
+        val priorityCard: CardView = itemView.findViewById<CardView>(R.id.priorityCard)
+        val dateTV: TextView = itemView.findViewById<TextView>(R.id.dateTV)
+        val taskRowLL: LinearLayout = itemView.findViewById<LinearLayout>(R.id.taskRowLL)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_item, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_item_task, parent, false)
         return TaskViewHolder(layout)
     }
 
@@ -46,8 +44,7 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         holder.titleTV.text = taskList[position].title
         holder.contentTV.text = taskList[position].content
         holder.dateTV.text = formatDate.format(taskList[position].date)
-        val priority = taskList[position].priority
-        when (priority) {
+        when (taskList[position].priority) {
             Priority.LOW -> holder.priorityCard.setCardBackgroundColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.green)
             )

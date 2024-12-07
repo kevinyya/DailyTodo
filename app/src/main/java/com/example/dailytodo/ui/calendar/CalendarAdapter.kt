@@ -21,9 +21,9 @@ class CalendarAdapter : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>
     var taskList = emptyList<TaskData>()
 
     class CalendarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTV = itemView.findViewById<TextView>(R.id.titleTV)
-        val contentTV = itemView.findViewById<TextView>(R.id.contentTV)
-        val priorityCard = itemView.findViewById<CardView>(R.id.priorityCard)
+        val titleTV: TextView = itemView.findViewById<TextView>(R.id.titleTV)
+        val contentTV: TextView = itemView.findViewById<TextView>(R.id.contentTV)
+        val priorityCard: CardView = itemView.findViewById<CardView>(R.id.priorityCard)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
@@ -39,8 +39,7 @@ class CalendarAdapter : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>
         // Display View
         holder.titleTV.text = taskList[position].title
         holder.contentTV.text = taskList[position].content
-        val priority = taskList[position].priority
-        when (priority) {
+        when (taskList[position].priority) {
             Priority.LOW -> holder.priorityCard.setCardBackgroundColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.green)
             )
