@@ -4,6 +4,7 @@
     <string name="title_task">Task</string>
     <string name="title_calendar">Calendar</string>
     <string name="add_title_hint">Please input title!</string>
+    <string name="add_date_hint">Please select a date!</string>
     <string name="date_format">yyyy-MM-dd</string>
 
     <string-array name="priority_array">

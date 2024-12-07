@@ -88,10 +88,13 @@ class AddActivity : AppCompatActivity() {
             // Insert Task
             taskViewModel.insertTask(newTask)
             finish()
-        } else {
+        } else if (titleET.text.toString() == "") {
             // Snackbar popup
             Snackbar.make(findViewById(android.R.id.content),
                 R.string.add_title_hint, Snackbar.LENGTH_SHORT).show()
+        } else if (dateET.text.toString() == "") {
+            Snackbar.make(findViewById(android.R.id.content),
+                R.string.add_date_hint, Snackbar.LENGTH_SHORT).show()
         }
     }
 
