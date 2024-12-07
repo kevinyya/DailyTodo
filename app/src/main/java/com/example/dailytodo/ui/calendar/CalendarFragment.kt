@@ -2,18 +2,25 @@ package com.example.dailytodo.ui.calendar
 
 import android.R
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.dailytodo.data.Priority
+import com.example.dailytodo.data.TaskDatabase
 import com.example.dailytodo.databinding.FragmentCalendarBinding
+import com.example.dailytodo.ui.task.TaskAdapter
 import com.example.dailytodo.ui.task.TaskViewModel
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import kotlinx.coroutines.currentCoroutineContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -22,14 +29,19 @@ import kotlin.math.log
 
 
 class CalendarFragment : Fragment() {
+    // Calendar Adapter
+    private val calendarAdapter: CalendarAdapter by lazy { CalendarAdapter() }
+    // Calendar ViewModel
+    private val calendarViewModel: CalendarViewModel by viewModels()
+    // MaterialCalendarView
+    private lateinit var materialCalendarView: MaterialCalendarView
 
     private var _binding: FragmentCalendarBinding? = null
-
-    private val calendarViewModel: CalendarViewModel by viewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
 
     // Date Format
     private val formatDate = SimpleDateFormat("yyyy-MM-dd")
@@ -45,25 +57,45 @@ class CalendarFragment : Fragment() {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Highlight Current Date
-        val calendarView = binding.calendarView
-        val currentDate: Calendar = Calendar.getInstance()
-        calendarView.setSelectedDate(currentDate.getTime())
+        // Database Dao
+        val taskDao = TaskDatabase.getInstance(requireContext()).taskDao()
 
-        // Mark Date with Tasks
-        // val cal1 = java.util.Calendar.getInstance()
-        // val calendarDecorator = CalendarDecorator(Priority.HIGH)
-        // cal1.set(2024, java.util.Calendar.DECEMBER, 10)
-        // calendarDecorator.addDate(CalendarDay.from(cal1))
-        // val cal2 = java.util.Calendar.getInstance()
-        // cal2.set(2024, java.util.Calendar.DECEMBER, 20)
-        // calendarDecorator.addDate(CalendarDay.from(cal2))
-        // calendarView.addDecorator(calendarDecorator)
+        // Highlight Current Date
+        materialCalendarView = binding.materialCalendarView
+        val currentDate: Calendar = Calendar.getInstance()
+        materialCalendarView.setSelectedDate(currentDate.getTime())
 
         // Show Task with Color in the Calendar
         showTaskInCalendar()
 
+        // Configure RecyclerView
+        val calendarRV = binding.calendarRV
+        calendarRV.adapter = calendarAdapter
+        calendarRV.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+
+        // Date Clicked Event
+        materialCalendarView.setOnDateChangedListener(object : OnDateSelectedListener {
+            override fun onDateSelected(
+                widget: MaterialCalendarView,
+                calendarDay: CalendarDay,
+                selected: Boolean
+            ) {
+                val dateInLong = calendarDayToDate(calendarDay).time / 10000 * 10000
+                val taskList = taskDao.getTasksByDate(dateInLong)
+                calendarAdapter.setData(taskList)
+            }
+        })
+
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
     fun showTaskInCalendar() {
@@ -75,25 +107,16 @@ class CalendarFragment : Fragment() {
             // Convert to CalendarDay
             val calendarDay = dateToCalendarDay(task.date)
             when (task.priority) {
-                Priority.LOW -> {
-                    // Log.d("Debug", "Low: " + formatDate.format(task.date))
-                    lowPriorityDecorator.addDate(calendarDay)
-                }
-                Priority.MEDIUM -> {
-                    // Log.d("Debug", "Medium: " + formatDate.format(task.date))
-                    mediumPriorityDecorator.addDate(calendarDay)
-                }
-                Priority.HIGH -> {
-                    // Log.d("Debug", "High: " + formatDate.format(task.date))
-                    highPriorityDecorator.addDate(calendarDay)
-                }
+                Priority.LOW -> lowPriorityDecorator.addDate(calendarDay)
+                Priority.MEDIUM -> mediumPriorityDecorator.addDate(calendarDay)
+                Priority.HIGH -> highPriorityDecorator.addDate(calendarDay)
                 else -> {}
             }
         }
         // Update Decorator
-        binding.calendarView.addDecorator(lowPriorityDecorator)
-        binding.calendarView.addDecorator(mediumPriorityDecorator)
-        binding.calendarView.addDecorator(highPriorityDecorator)
+        binding.materialCalendarView.addDecorator(lowPriorityDecorator)
+        binding.materialCalendarView.addDecorator(mediumPriorityDecorator)
+        binding.materialCalendarView.addDecorator(highPriorityDecorator)
     }
 
     fun dateToCalendarDay(dateInLong: Long) : CalendarDay {
@@ -103,6 +126,12 @@ class CalendarFragment : Fragment() {
         val calendar = Calendar.getInstance()
         calendar.time = date
         return CalendarDay.from(calendar)
+    }
+
+    fun calendarDayToDate(calendarDay: CalendarDay) : Date {
+        val calendar = Calendar.getInstance()
+        calendar.set(calendarDay.year, calendarDay.month, calendarDay.day, 0, 0, 0)
+        return calendar.time
     }
 
     override fun onDestroyView() {
